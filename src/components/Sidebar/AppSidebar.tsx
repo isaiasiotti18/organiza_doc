@@ -14,6 +14,8 @@ import {
 import { AddressBook, CreditCard, Files, Plus, Receipt, } from 'phosphor-react'
 
 import { NavLink } from "react-router-dom"
+import { NewCategory } from "../NewCategory"
+import { Button } from "../ui/button"
 
 const categories = [
   {
@@ -42,10 +44,12 @@ export function AppSidebar() {
   return (
     <Sidebar >
       <SidebarHeader className="h-14 p-0 m-0">
-      <button className="w-full h-full flex justify-center text-center p-4 gap-2.5 cursor-pointer">
-        <Plus size={24} />
-        <span className="font-bold">Nova categoria</span>
-      </button>
+        <NewCategory>
+          <Button variant="outline" className="border-0 rounded-none w-full h-full flex justify-center text-center p-4 gap-2.5 cursor-pointer">
+            <Plus size={24} />
+            <span className="font-bold">Nova categoria</span>
+          </Button>
+        </NewCategory>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup />

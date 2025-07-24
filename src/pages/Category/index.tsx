@@ -1,3 +1,4 @@
+import { DocumentCard } from "@/components/DocumentCard"
 import { useParams } from "react-router-dom"
 
 export function Category() {
@@ -6,7 +7,7 @@ export function Category() {
   
   return(
     <div>
-      <h1>{category}</h1>
+      <DocumentCard/>
     </div>
   )
 }

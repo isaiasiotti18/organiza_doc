@@ -20,22 +20,22 @@ import { Button } from "../ui/button"
 const categories = [
   {
     title: 'Contratos',
-    url: 'contratos',
+    url: 'category/contratos',
     icon: AddressBook
   },
   {
     title: 'Faturas',
-    url: 'faturas',
+    url: 'category/faturas',
     icon: CreditCard
   },
   {
     title: 'Boletos',
-    url: 'boletos',
+    url: 'category/boletos',
     icon: Receipt
   },
   {
     title: 'Documentos',
-    url: 'documentos',
+    url: 'category/documentos',
     icon: Files
   }  
 ]
@@ -43,7 +43,7 @@ const categories = [
 export function AppSidebar() {
   return (
     <Sidebar >
-      <SidebarHeader className="h-14 p-0 m-0">
+      <SidebarHeader className="h-15 p-0 m-0">
         <NewCategory>
           <Button variant="outline" className="border-0 rounded-none w-full h-full flex justify-center text-center p-4 gap-2.5 cursor-pointer">
             <Plus size={24} />

@@ -4,6 +4,7 @@ import { RegisterForm } from './pages/RegisterForm'
 import { DefaultLayout } from './layout/DefaultLayout'
 import { LoginRegisterLayout } from './layout/LoginRegisterLayout'
 import { Home } from './pages/Home'
+import { Category } from './pages/Category'
 
 export function Router() {
   return(
@@ -16,8 +17,9 @@ export function Router() {
 
       <Route path='/app' element={<DefaultLayout/>}>
         <Route path='home' element={<Home />} />
-        <Route path='categorie/:categorie'></Route>
+        <Route path='category/:category' element={<Category />} ></Route>
       </Route>
+      
     </Routes>
   )
 }

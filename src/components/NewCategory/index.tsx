@@ -23,21 +23,20 @@ export function NewCategory({ children }: { children: React.ReactNode }) {
           <DialogHeader>
             <DialogTitle>Insira uma nova categoria.</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
+              Descreva em uma unica palavra quais tipos de documentos essa categoria irá armazenar.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+              <Label htmlFor="categoryName">Nome da categoria</Label>
+              <Input name="categoryName" placeholder="Ex: Contratos" />
             </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline">Cancelar</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit">Salvar</Button>
           </DialogFooter>
         </DialogContent>
       </form>

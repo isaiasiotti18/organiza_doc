@@ -10,35 +10,13 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-import { AddressBook, CreditCard, Files, Plus, Receipt, } from 'phosphor-react'
-
 import { NavLink } from "react-router-dom"
 import { NewCategory } from "../NewCategory"
 import { Button } from "../ui/button"
 import { SidebarFooterContent } from "./SidebarFooterContent"
 
-const categories = [
-  {
-    title: 'Contratos',
-    url: 'category/contratos',
-    icon: AddressBook
-  },
-  {
-    title: 'Faturas',
-    url: 'category/faturas',
-    icon: CreditCard
-  },
-  {
-    title: 'Boletos',
-    url: 'category/boletos',
-    icon: Receipt
-  },
-  {
-    title: 'Documentos',
-    url: 'category/documentos',
-    icon: Files
-  }  
-]
+import { categories } from "./SidebarFooterContent/CategoryInterface"
+import { Plus } from "phosphor-react"
 
 export function AppSidebar() {
   return (

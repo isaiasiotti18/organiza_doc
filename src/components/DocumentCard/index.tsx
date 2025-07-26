@@ -3,12 +3,11 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardAction,
   CardContent,
   CardFooter
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button';
-import { FileArrowDown } from 'phosphor-react';
+import { Eye, FileArrowDown } from 'phosphor-react';
 
 interface DocumentCardProps {
   name: string;
@@ -19,23 +18,24 @@ interface DocumentCardProps {
 
 export function DocumentCard({ name, description, category, url }: DocumentCardProps) {
   return (
-    <Card className='w-96 p-2 m-0'>
+    <Card className='w-96 p-2 pr-0 m-0 w-[33%]'>
       <CardHeader className='flex flex-row justify-between p-0 m-0'>
         <div className='flex flex-col gap-1.5'>
           <CardTitle><span>{`${name} - ${category}`}</span></CardTitle>
           <CardDescription className='align-middle justify-center'>{description}</CardDescription>
         </div>
-        <CardAction>
-          <Button variant="link">Visualizar Documento</Button>
-        </CardAction>
       </CardHeader>
-      <CardContent className='flex items-center justify-end'>
+      <CardContent className='p-0 flex flex-col items-center justify-between'>
         <a href={url} className='flex flex-row gap-2'>
-          <FileArrowDown size={24} />
+          <FileArrowDown size={20} />
           <span>Baixar Documento</span>
         </a>
+        <a href={url} className='flex flex-row gap-2'>
+          <Eye size={20} />
+          <span>Visualizar Documento</span>
+        </a>       
       </CardContent>
-      <CardFooter className='p-0 flex flex-row gap-2 justify-end'>
+      <CardFooter className='p-0 flex flex-row gap-2 justify-center'>
         <Button variant="destructive">Excluir Documento</Button>
         <Button variant="outline" >Alterar Documento</Button>
       </CardFooter>

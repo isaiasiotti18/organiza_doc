@@ -1,8 +1,8 @@
-import { 
-  Card, 
+import {
+  Card,
   CardHeader,
-  CardTitle, 
-  CardDescription, 
+  CardTitle,
+  CardDescription,
   CardAction,
   CardContent,
   CardFooter
@@ -13,32 +13,33 @@ import { FileArrowDown } from 'phosphor-react';
 interface DocumentCardProps {
   name: string;
   description: string;
-  src?: string;
   category: string | undefined;
   url: string;
 }
 
-export function DocumentCard({ name, description, src, category, url }: DocumentCardProps) {
+export function DocumentCard({ name, description, category, url }: DocumentCardProps) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{name} - {category}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+    <Card className='w-96 p-2 m-0'>
+      <CardHeader className='flex flex-row justify-between p-0 m-0'>
+        <div className='flex flex-col gap-1.5'>
+          <CardTitle><span>{`${name} - ${category}`}</span></CardTitle>
+          <CardDescription className='align-middle justify-center'>{description}</CardDescription>
+        </div>
         <CardAction>
           <Button variant="link">Visualizar Documento</Button>
         </CardAction>
       </CardHeader>
-      <CardContent>
-        <img src={src} alt={name+' - '+description} />
-        <a href={url}>
+      <CardContent className='flex items-center justify-end'>
+        <a href={url} className='flex flex-row gap-2'>
           <FileArrowDown size={24} />
-          Baixar Documento
+          <span>Baixar Documento</span>
         </a>
       </CardContent>
-      <CardFooter>
-        <Button variant="link">Excluir Documento</Button>
-        <Button variant="link" >Alterar Documento</Button>
+      <CardFooter className='p-0 flex flex-row gap-2 justify-end'>
+        <Button variant="destructive">Excluir Documento</Button>
+        <Button variant="outline" >Alterar Documento</Button>
       </CardFooter>
     </Card>
+
   )
 }

@@ -6,8 +6,27 @@ export function Category() {
   const category = params.category
   
   return(
-    <div>
-      <DocumentCard/>
+    <div className="flex flex-row gap-3 flex-wrap w-full h-full p-0 m-0">
+      <DocumentCard
+        category={category}
+        description="Esse é um documento importante!"
+        name="CNH"
+        url="https://meudocumento.com.br/cnh"
+      />
+
+      <DocumentCard
+        category={category}
+        description="Esse é um documento importante!"
+        name="CNH"
+        url="https://meudocumento.com.br/cnh"
+      />
+
+      <DocumentCard
+        category={category}
+        description="Esse é um documento importante!"
+        name="CNH"
+        url="https://meudocumento.com.br/cnh"
+      /> 
     </div>
   )
 }

@@ -7,7 +7,7 @@ import {
   CardFooter
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button';
-import { Eye, FileArrowDown } from 'phosphor-react';
+import { EyeIcon, FileArrowDownIcon } from '@phosphor-icons/react';
 
 interface DocumentCardProps {
   name: string;
@@ -27,11 +27,11 @@ export function DocumentCard({ name, description, category, url }: DocumentCardP
       </CardHeader>
       <CardContent className='p-0 flex flex-col items-center justify-between'>
         <a href={url} className='flex flex-row gap-2'>
-          <FileArrowDown size={20} />
+          <FileArrowDownIcon size={20} />
           <span>Baixar Documento</span>
         </a>
         <a href={url} className='flex flex-row gap-2'>
-          <Eye size={20} />
+          <EyeIcon size={20} />
           <span>Visualizar Documento</span>
         </a>       
       </CardContent>

@@ -1,8 +1,6 @@
-import styles from './InputFile.module.css'
-
-export function InputFile() {
+export function SendDocument() {
   return(
-    <form className={styles.formInputFile} action="">
+    <form action="">
       {/* 
       Campos:
         - Nome do documento

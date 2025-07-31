@@ -17,7 +17,13 @@ export function Category() {
   }, [category]);  
   
   return(
-    <div className="flex flex-row gap-1 flex-wrap w-full h-full p-0 m-0">
+    <div className="
+      flex
+      flex-col
+      gap-1 flex-wrap w-full h-full p-0 m-0
+      md:flex md:flex-row md:justify-stretch md:items-stretch
+      sm:flex sm:flex-row
+    ">
       {filteredDocuments.length === 0 ? (
         <p>Não há documentos nesta categoria.</p>
       ) : (
@@ -30,26 +36,6 @@ export function Category() {
           />
         ))
       )}
-      {/* <DocumentCard
-        category={category}
-        description="Esse é um documento importante!"
-        name="CNH"
-        url="https://meudocumento.com.br/cnh"
-      />
-
-      <DocumentCard
-        category={category}
-        description="Esse é um documento importante!"
-        name="CNH"
-        url="https://meudocumento.com.br/cnh"
-      />
-
-      <DocumentCard
-        category={category}
-        description="Esse é um documento importante!"
-        name="CNH"
-        url="https://meudocumento.com.br/cnh"
-      />  */}
     </div>
   )
 }

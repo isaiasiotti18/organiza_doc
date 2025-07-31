@@ -18,7 +18,7 @@ interface DocumentCardProps {
 
 export function DocumentCard({ name, description, category, url }: DocumentCardProps) {
   return (
-    <Card className='w-96 p-2 pr-0 m-0 w-[33%]'>
+    <Card className='p-2 pr-0 m-0 w-full md:w-[48%] lg:w-[33%]'>
       <CardHeader className='flex flex-row justify-between p-0 m-0'>
         <div className='flex flex-col gap-1.5'>
           <CardTitle><span>{`${name} - ${category}`}</span></CardTitle>

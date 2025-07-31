@@ -11,7 +11,7 @@ export function DefaultLayout() {
           <Header displayFormInHeader={true}>
             <SidebarTrigger />
           </Header>
-          <div className="flex items-center justify-center pl-1.5 mt-2 mb-2">       
+          <div className="flex items-center justify-center p-2 mt-2 mb-2">       
             <Outlet />
           </div>
         </SidebarInset>

@@ -9,6 +9,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
@@ -23,13 +32,26 @@ export function NewCategory({ children }: { children: React.ReactNode }) {
           <DialogHeader>
             <DialogTitle>Insira uma nova categoria.</DialogTitle>
             <DialogDescription>
-              Descreva em uma unica palavra quais tipos de documentos essa categoria irá armazenar.
+              Descreva em poucas palavras quais tipos de documentos essa categoria irá armazenar.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="categoryName">Nome da categoria</Label>
               <Input name="categoryName" placeholder="Ex: Contratos" />
+            </div>
+
+            <div className="grid gap-3">
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Theme" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>

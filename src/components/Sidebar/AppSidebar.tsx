@@ -15,8 +15,8 @@ import { NewCategory } from "../NewCategory"
 import { Button } from "../ui/button"
 import { SidebarFooterContent } from "./SidebarFooterContent"
 
-import { categories } from "./SidebarFooterContent/CategoryInterface"
-import { Plus } from "phosphor-react"
+import { categories } from "../../interfaces/CategoryInterface"
+import { PlusIcon } from "@phosphor-icons/react"
 
 export function AppSidebar() {
   return (
@@ -24,7 +24,7 @@ export function AppSidebar() {
       <SidebarHeader className="h-15 p-0 m-0">
         <NewCategory>
           <Button variant="outline" className="border-0 rounded-none w-full h-full flex justify-center text-center p-4 gap-2.5 cursor-pointer">
-            <Plus size={24} />
+            <PlusIcon size={24} />
             <span className="font-bold">Nova categoria</span>
           </Button>
         </NewCategory>

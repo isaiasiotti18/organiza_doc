@@ -29,6 +29,7 @@ export function Category() {
       ) : (
         filteredDocuments.map((document) => (
           <DocumentCard
+            key={document.url}
             category={document.category}
             description={document.description}
             name={document.name}

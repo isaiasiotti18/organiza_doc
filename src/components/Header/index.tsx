@@ -1,6 +1,6 @@
 import { HeaderContainer } from "./style";
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { SubmitNewDocument } from "../SendDocument";
+import { FormDialogComponent } from "./FormDialogComponent";
 
 interface HeaderProps {
   displayFormInHeader: boolean;
@@ -15,16 +15,9 @@ export function Header({ displayFormInHeader, children }: HeaderProps) {
         <span className="text-xl font-bold">OrganizaDoc</span>
       </div>
       {displayFormInHeader && (
-        <form className="flex flex-row gap-2">
-          <Input 
-            type="file"
-            name="sendDocument"
-            id=""
-            accept="image/*,.pdf,.doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            multiple
-          />
-          <Button type="submit">Enviar Documento</Button>
-        </form>
+      <FormDialogComponent>
+        <SubmitNewDocument />
+      </FormDialogComponent>
       )}
     </HeaderContainer>
   );

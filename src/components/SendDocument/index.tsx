@@ -62,7 +62,7 @@ export function SubmitNewDocument() {
 
   return (
     <Form {...newDocumentForm}>
-      <form onSubmit={handleSubmit(handleCreateNewDocument)} action=''>
+      <form onSubmit={handleSubmit(handleCreateNewDocument)} action='' className='flex flex-col gap-4'>
         <FormField
           control={newDocumentForm.control}
           name='name'
@@ -70,7 +70,7 @@ export function SubmitNewDocument() {
             <FormItem>
               <FormLabel>Nome do Documento</FormLabel>
               <FormControl>
-                <Input placeholder='De um nome para o seu documento.' {...field} />
+                <Input autoComplete='off' placeholder='De um nome para o seu documento.' {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -83,7 +83,7 @@ export function SubmitNewDocument() {
             <FormItem>
               <FormLabel>Descrição</FormLabel>
               <FormControl>
-                <Input placeholder='Dê uma descrição para o seu documento' {...field} />
+                <Input autoComplete='off' placeholder='Dê uma descrição para o seu documento' {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -133,7 +133,7 @@ export function SubmitNewDocument() {
             </FormItem>
           )}
         />
-        <Button type='submit'>Salvar Documento</Button>
+        <Button className='w-[33%]' type='submit'>Salvar Documento</Button>
       </form>
     </Form>
   )

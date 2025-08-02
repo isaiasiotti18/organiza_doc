@@ -35,11 +35,6 @@ export function FormDialogComponent({ children }: FormDialogComponentProps) {
           </DialogDescription>
         </DialogHeader>
         {children}
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type='button' variant="outline">Cancelar</Button>
-          </DialogClose>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

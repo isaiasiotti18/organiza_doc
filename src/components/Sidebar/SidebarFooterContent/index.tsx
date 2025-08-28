@@ -2,6 +2,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
 
 import { UserIcon, CaretCircleUpIcon } from '@phosphor-icons/react'
+import { Link } from "react-router-dom";
 
 
 
@@ -21,13 +22,13 @@ export function SidebarFooterContent() {
             className="w-[--radix-popper-anchor-width]"
           >
             <DropdownMenuItem>
-              <span>Account</span>
+              <Link to="/user/account">Account</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <span>Billing</span>
+              <Link to="/user/billing">Billing</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <span>Sign out</span>
+              <Link to="/register">Sign out</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

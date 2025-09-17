@@ -1,6 +1,6 @@
 import { HomeIcon } from "lucide-react";
-import { SubmitNewDocument } from "../SendDocument";
-import { FormDialogComponent } from "./FormDialogComponent";
+import { SubmitNewDocument } from "@/components/SendDocument";
+import { FormDialogComponent } from "@/components/FormDialogComponent";
 import { Link } from "react-router-dom";
 
 interface HeaderProps {
@@ -27,7 +27,7 @@ export function Header({
       )}
       {homeIcon && (
         <Link to="/app/home">
-          <HomeIcon />
+          <HomeIcon className="mr-4" />
         </Link>
       )}
     </header>

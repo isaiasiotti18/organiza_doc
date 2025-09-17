@@ -60,22 +60,17 @@ export function Billing() {
               <Input type="text" placeholder="Nome aqui" />
             </div>
 
-            <div className="flex flex-row gap-2">
-              <div>
+            <div className="flex flex-row justify-between gap-2">
+              <div className="flex flex-col gap-2">
                 <Label>Número de segurança</Label>
                 <Input type="text" placeholder="CVC" />
               </div>
 
-              <div>
+              <div className="flex flex-col gap-2">
                 <Label>Data de validade</Label>
                 <Input type="text" placeholder="12/37" />
               </div>
             </div>
-          </div>
-
-          <div className="mt-6 mb-6 flex flex-col gap-2">
-            <Label htmlFor="name">Senha atual</Label>
-            <Input type="password" placeholder="Senha" />
           </div>
 
           <div className="flex flex-row justify-center gap-4">
@@ -90,6 +85,12 @@ export function Billing() {
 
             <Button type="submit" className="w-[48%]">
               Alterar
+            </Button>
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <Button className="w-[50%]" variant="outline" asChild>
+              <Link to="/cancel-subscription">Cancelar Assinatura</Link>
             </Button>
           </div>
         </form>

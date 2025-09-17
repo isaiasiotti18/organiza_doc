@@ -1,10 +1,13 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
 
-import { UserIcon, CaretCircleUpIcon } from '@phosphor-icons/react'
+import { UserIcon, CaretCircleUpIcon } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
-
-
 
 export function SidebarFooterContent() {
   return (
@@ -12,7 +15,7 @@ export function SidebarFooterContent() {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2 px-4 py-2 w-full text-left rounded text-sm">
+            <button className="flex w-full items-center gap-2 rounded px-4 py-2 text-left text-sm">
               <UserIcon size={24} /> Username
               <CaretCircleUpIcon size={24} className="ml-auto" />
             </button>
@@ -34,5 +37,5 @@ export function SidebarFooterContent() {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

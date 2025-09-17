@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
-import { Header } from "../components/Header"
+import { Header } from "../components/Header";
 
 export function LoginRegisterLayout() {
-  return(
+  return (
     <div className="min-h-screen bg-gray-100">
-      <Header displayFormInHeader={false}/>
-      <div className="flex items-center justify-center p-4 mt-10">
+      <Header displayFormInHeader={false} />
+      <div className="mt-10 flex items-center justify-center p-4">
         <Outlet />
       </div>
     </div>
-  )
+  );
 }

@@ -1,13 +1,12 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import { LoginForm } from "./pages/LoginForm";
-import { RegisterForm } from "./pages/RegisterForm";
+import { LoginForm } from "./pages/auth/LoginForm";
+import { RegisterForm } from "./pages/auth/RegisterForm";
 import { DefaultLayout } from "./layout/DefaultLayout";
 import { LoginRegisterLayout } from "./layout/LoginRegisterLayout";
-import { Home } from "./pages/Home";
-import { Documents } from "./pages/Documents";
+import { Documents } from "./pages/app/Documents";
 import { UserLayout } from "./layout/UserLayout";
-import { Account } from "./pages/User/Account";
-import { Billing } from "./pages/User/Billing";
+import { Account } from "./pages/user/Account";
+import { Billing } from "./pages/user/Billing";
 
 export function Router() {
   return (
@@ -20,7 +19,6 @@ export function Router() {
       </Route>
 
       <Route path="/app" element={<DefaultLayout />}>
-        <Route path="home" element={<Home />} />
         <Route path="category/:category" element={<Documents />} />
       </Route>
 

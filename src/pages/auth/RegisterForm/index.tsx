@@ -1,40 +1,51 @@
-/* eslint-disable no-useless-escape */
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 
 import { newUserSupabase } from "@/utils/supabase/newUser";
 import { useMutation } from "@tanstack/react-query";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+
 import { toast } from "sonner";
-import { Form, FormField } from "@/components/ui/form";
 
-const registerFormSchema = z.object({
-  name: z.string().min(6),
-  email: z.email(),
-  password: z
-    .string()
-    .min(8)
-    .regex(
-      new RegExp(
-        "^(?=.*[AZ])(?=.*[az])(?=.*[0-9])(?=.*[!@#$%^&*()_+‌​‌​\\-=[]{};':\"\‌​\‌​\\|,.<>/?]).{8,}$‌​",
-      ),
-      {
-        error:
-          "A senha deve ter pelo menos 8 caracteres e conter uma letra maiúscula, uma letra minúscula e um número",
-      },
-    ),
-});
+import {
+  registerFormSchema,
+  RegisterFormSchemaType,
+} from "@/validations/register-form-schema";
 
-type RegisterFormSchemaType = z.infer<typeof registerFormSchema>;
+import { EyeIcon, EyeClosedIcon } from "lucide-react";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function RegisterForm() {
   const navigate = useNavigate();
 
-  const form = useForm<RegisterFormSchemaType>();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isPasswordConfirmVisible, setIsPasswordConfirmVisible] =
+    useState(false);
+
+  const form = useForm<RegisterFormSchemaType>({
+    resolver: zodResolver(registerFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+    },
+  });
+
+  const {
+    formState: { errors },
+  } = form;
 
   const { mutateAsync: newUserSupabaseFn } = useMutation({
     mutationFn: newUserSupabase,
@@ -58,6 +69,8 @@ export function RegisterForm() {
             },
           },
         );
+
+        form.reset();
       } else if (result.error) {
         toast.error(result.error.message);
       }
@@ -80,12 +93,18 @@ export function RegisterForm() {
               control={form.control}
               name="name"
               render={({ field }) => (
-                <Input
-                  type="text"
-                  placeholder="Nome completo"
-                  required
-                  {...field}
-                />
+                <FormItem>
+                  <FormLabel htmlFor="name">Nome</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="name"
+                      type="text"
+                      placeholder="Nome completo"
+                      required
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
               )}
             />
 
@@ -93,24 +112,100 @@ export function RegisterForm() {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <Input
-                  type="email"
-                  placeholder="Email que você mais usa"
-                  required
-                  {...field}
-                />
+                <FormItem>
+                  <FormLabel htmlFor="email">E-mail</FormLabel>
+                  <FormControl>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="E-mail que você mais usa"
+                      required
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
-                <Input
-                  type="password"
-                  placeholder="Insira sua senha"
-                  required
-                  {...field}
-                />
+                <FormItem>
+                  <FormLabel htmlFor="password">Senha</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        id="password"
+                        type={isPasswordVisible ? "text" : "password"}
+                        placeholder="Insira sua senha"
+                        required
+                        {...field}
+                      />
+                    </FormControl>
+                    <span className="absolute top-1.5 right-3">
+                      <button
+                        type="button"
+                        onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                      >
+                        {isPasswordVisible ? (
+                          <EyeIcon
+                            className="text-muted-foreground cursor-pointer"
+                            size={24}
+                          />
+                        ) : (
+                          <EyeClosedIcon
+                            className="text-muted-foreground cursor-pointer"
+                            size={24}
+                          />
+                        )}
+                      </button>
+                    </span>
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="confirm_password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="confirm_password">
+                    Confirme a senha
+                  </FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        id="confirm_password"
+                        type={isPasswordConfirmVisible ? "text" : "password"}
+                        placeholder="Confirme a sua senha"
+                        required
+                        {...field}
+                      />
+                    </FormControl>
+                    <span className="absolute top-1.5 right-3">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setIsPasswordConfirmVisible(!isPasswordConfirmVisible)
+                        }
+                      >
+                        {isPasswordConfirmVisible ? (
+                          <EyeIcon
+                            className="text-muted-foreground cursor-pointer"
+                            size={24}
+                          />
+                        ) : (
+                          <EyeClosedIcon
+                            className="text-muted-foreground cursor-pointer"
+                            size={24}
+                          />
+                        )}
+                      </button>
+                    </span>
+                  </div>
+                </FormItem>
               )}
             />
 

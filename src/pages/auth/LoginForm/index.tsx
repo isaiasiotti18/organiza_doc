@@ -17,6 +17,9 @@ import {
   loginFormSchema,
   LoginFormSchemaType,
 } from "@/validations/login-form-schema";
+import { loginWithEmailAndPasswordSupabase } from "@/utils/supabase/loginWithEmailAndPassword";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export function LoginForm() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -33,8 +36,23 @@ export function LoginForm() {
     formState: { errors },
   } = form;
 
-  async function handleLoginForm() {
-    console.log(form.getValues());
+  const { mutateAsync: loginWithEmailAndPasswordSupabaseFn } = useMutation({
+    mutationFn: loginWithEmailAndPasswordSupabase,
+  });
+
+  async function handleLoginForm(data: LoginFormSchemaType) {
+    try {
+      const result = await loginWithEmailAndPasswordSupabaseFn({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (result) {
+        console.log(result);
+      }
+    } catch (error) {
+      toast.error(`${error}`);
+    }
   }
 
   return (

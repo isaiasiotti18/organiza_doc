@@ -20,16 +20,16 @@ export const loginWithEmailAndPasswordSupabase = async ({
     throw new Error("Email/Senha invalidos.");
   }
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data: result, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
 
   if (error) {
-    console.log(error);
-    console.error("Error signing up: ", error);
-    return { success: false, error };
+    throw new Error(`Error signing up: ${error}`);
   }
 
-  return { success: true, data };
+  if (result) {
+    return result;
+  }
 };

@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   FormField,
   FormItem,
@@ -22,6 +22,8 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export function LoginForm() {
+  const navigate = useNavigate();
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const form = useForm<LoginFormSchemaType>({
@@ -48,7 +50,7 @@ export function LoginForm() {
       });
 
       if (result) {
-        console.log(result);
+        navigate("/app/category/all", { replace: true });
       }
     } catch (error) {
       toast.error(`${error}`);

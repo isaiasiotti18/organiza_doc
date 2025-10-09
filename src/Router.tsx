@@ -7,6 +7,7 @@ import { Documents } from "./pages/app/Documents";
 import { UserLayout } from "./layout/UserLayout";
 import { Account } from "./pages/user/Account";
 import { Billing } from "./pages/user/Billing";
+import ProtectedRoute from "./protected-route";
 
 export function Router() {
   return (
@@ -18,11 +19,25 @@ export function Router() {
         <Route path="register" element={<RegisterForm />} />
       </Route>
 
-      <Route path="/app" element={<DefaultLayout />}>
+      <Route
+        path="/app"
+        element={
+          <ProtectedRoute>
+            <DefaultLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route path="category/:category" element={<Documents />} />
       </Route>
 
-      <Route path="/user" element={<UserLayout />}>
+      <Route
+        path="/user"
+        element={
+          <ProtectedRoute>
+            <UserLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route path="account" element={<Account />} />
         <Route path="billing" element={<Billing />} />
       </Route>

@@ -5,10 +5,10 @@ interface LoginWithEmailAndPasswordSupabase {
   password: string;
 }
 
-export const loginWithEmailAndPasswordSupabase = async ({
+export async function loginWithEmailAndPasswordSupabase({
   email,
   password,
-}: LoginWithEmailAndPasswordSupabase) => {
+}: LoginWithEmailAndPasswordSupabase) {
   const { data } = await supabase
     .from("users")
     .select("email")
@@ -32,4 +32,4 @@ export const loginWithEmailAndPasswordSupabase = async ({
   if (result) {
     return result;
   }
-};
+}

@@ -6,11 +6,11 @@ interface NewUserSupabase {
   name: string;
 }
 
-export const newUserSupabase = async ({
+export async function newUserSupabase({
   name,
   email,
   password,
-}: NewUserSupabase) => {
+}: NewUserSupabase) {
   const { data } = await supabase
     .from("users")
     .select("email")
@@ -41,4 +41,4 @@ export const newUserSupabase = async ({
   }
 
   return { success: true, data };
-};
+}

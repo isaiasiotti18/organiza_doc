@@ -35,7 +35,7 @@ export function LoginForm() {
   });
 
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = form;
 
   const { mutateAsync: loginWithEmailAndPasswordSupabaseFn } = useMutation({
@@ -125,7 +125,7 @@ export function LoginForm() {
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
               Entrar
             </Button>
           </form>

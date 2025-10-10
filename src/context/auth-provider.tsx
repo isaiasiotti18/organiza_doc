@@ -5,34 +5,40 @@ import { Session, User } from "@supabase/supabase-js";
 interface AuthContextType {
   session: Session | null;
   user: User | null;
+  loading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Recupera sessão inicial
+    let mounted = true;
+
     supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
       setSession(data.session);
+      setLoading(false);
     });
 
-    // Listener para mudanças de sessão
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session);
-      },
-    );
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setLoading(false);
+    });
 
     return () => {
-      listener.subscription.unsubscribe();
+      mounted = false;
+      subscription.unsubscribe();
     };
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ session, user: session ? session.user : null }}
+      value={{ session, user: session?.user ?? null, loading }}
     >
       {children}
     </AuthContext.Provider>

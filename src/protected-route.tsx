@@ -4,12 +4,15 @@ import { useAuth } from "@/context/auth-provider";
 export default function ProtectedRoute({
   children,
 }: {
-  children: React.ReactNode;
+  children: JSX.Element;
 }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Carregando...</div>; // pode ser spinner, skeleton, etc
+  }
 
   if (!user) {
-    console.log(user);
     return <Navigate to="/login" replace />;
   }
 

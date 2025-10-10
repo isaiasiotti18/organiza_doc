@@ -5,18 +5,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
+import { useAuth } from "@/context/auth-provider";
+import { supabase } from "@/utils/supabase/supabase";
 
 import { UserIcon, CaretCircleUpIcon } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 
 export function SidebarFooterContent() {
+  const { user } = useAuth();
+
+  console.log(user);
+
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex w-full items-center gap-2 rounded px-4 py-2 text-left text-sm">
-              <UserIcon size={24} /> Username
+              <UserIcon size={24} /> {user?.user_metadata.name}
               <CaretCircleUpIcon size={24} className="ml-auto" />
             </button>
           </DropdownMenuTrigger>
@@ -31,7 +41,9 @@ export function SidebarFooterContent() {
               <Link to="/user/billing">Billing</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link to="/register">Sign out</Link>
+              <Link onClick={handleSignOut} to="/login">
+                Sign out
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

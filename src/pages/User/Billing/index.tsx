@@ -80,7 +80,7 @@ export function Billing() {
               className="w-[48%]"
               asChild
             >
-              <Link to="/app/home">Cancelar</Link>
+              <Link to="/app/category/all">Cancelar</Link>
             </Button>
 
             <Button type="submit" className="w-[48%]">

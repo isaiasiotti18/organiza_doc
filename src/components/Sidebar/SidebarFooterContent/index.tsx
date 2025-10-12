@@ -14,8 +14,6 @@ import { Link } from "react-router-dom";
 export function SidebarFooterContent() {
   const { user } = useAuth();
 
-  console.log(user);
-
   async function handleSignOut() {
     await supabase.auth.signOut();
   }

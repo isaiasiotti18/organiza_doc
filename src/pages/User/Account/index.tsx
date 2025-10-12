@@ -47,7 +47,7 @@ export function Account() {
               className="w-[48%]"
               asChild
             >
-              <Link to="/app/home">Cancelar</Link>
+              <Link to="/app/documents/all">Cancelar</Link>
             </Button>
 
             <Button type="submit" className="w-[48%]">

@@ -27,7 +27,7 @@ export function Router() {
           </ProtectedRoute>
         }
       >
-        <Route path="category/:category" element={<Documents />} />
+        <Route path="documents/:category" element={<Documents />} />
       </Route>
 
       <Route

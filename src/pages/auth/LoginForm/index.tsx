@@ -50,7 +50,7 @@ export function LoginForm() {
       });
 
       if (result) {
-        navigate("/app/category/all", { replace: true });
+        navigate("/app", { replace: true });
       }
     } catch (error) {
       toast.error(`${error}`);

@@ -19,42 +19,42 @@ export interface CategoryInterface {
 export const categories: CategoryInterface[] = [
   {
     title: "Contratos",
-    url: "category/contratos",
+    url: "documents/contratos",
     icon: AddressBookIcon,
   },
   {
     title: "Documentos",
-    url: "category/documentos",
+    url: "documents/documentos",
     icon: FilesIcon,
   },
   {
     title: "Certidões",
-    url: "category/certidoes",
+    url: "documents/certidoes",
     icon: CertificateIcon,
   },
   {
     title: "Faturas",
-    url: "category/faturas",
+    url: "documents/faturas",
     icon: CreditCardIcon,
   },
   {
     title: "Boletos",
-    url: "category/boletos",
+    url: "documents/boletos",
     icon: ReceiptIcon,
   },
   {
     title: "Comprovantes",
-    url: "category/comprovantes",
+    url: "documents/comprovantes",
     icon: BarcodeIcon,
   },
   {
     title: "Extratos",
-    url: "category/extratos",
+    url: "documents/extratos",
     icon: BankIcon,
   },
   {
     title: "Todos",
-    url: "category/all",
+    url: "documents/all",
     icon: FunnelXIcon,
   },
 ];

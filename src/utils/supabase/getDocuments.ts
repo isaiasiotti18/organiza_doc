@@ -11,7 +11,7 @@ export interface GetDocumentSupabase {
   created_at: string; // timestamp em formato ISO string
 }
 
-export async function getDocuments() {
+export async function getDocuments(): Promise<GetDocumentSupabase[]> {
   const {
     data: { user },
     error: userError,

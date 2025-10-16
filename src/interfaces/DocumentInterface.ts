@@ -2,8 +2,7 @@ export interface DocumentInterface {
   id: string;
   name: string;
   description: string;
-  file: File
+  file: File;
   category: string | undefined;
-  dueDate: Date
-  url: string;
+  dueDate: Date;
 }

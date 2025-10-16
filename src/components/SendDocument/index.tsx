@@ -1,140 +1,198 @@
-import { DocumentInterface } from '../../interfaces/DocumentInterface'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+} from "@/components/ui/select";
 
-import { categories } from '@/interfaces/CategoryInterface'
+import { Controller, useForm } from "react-hook-form";
 
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from '@/components/ui/select'
+import * as zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "../ui/button";
+import { useCategories } from "@/hooks/get-categories";
+import { useUploadDocument } from "@/hooks/upload-document";
+import { toast } from "sonner";
 
-import { useForm } from "react-hook-form"
-
-import * as zod from 'zod'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from '../ui/button'
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field";
+import { useEffect } from "react";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-const categoryTitles = categories.map(category => category.title)
-
 const newDocumentFormValidationSchema = zod.object({
-  name: zod.string().min(3, 'Informe o nome do documento.'),
-  description: zod.string().min(5, 'Informe o nome do documento.').max(20),
+  title: zod
+    .string()
+    .min(3, "Informe o nome do documento.")
+    .nonempty("Campo nome não pode estar vazio."),
+  description: zod
+    .string()
+    .min(5, "Informe o nome do documento.")
+    .max(20)
+    .optional(),
   file: zod.z
     .instanceof(File)
     .refine((file) => file.size <= MAX_FILE_SIZE, `Max image size is 5MB.`),
-  category: zod.enum(categoryTitles),
-  dueDate: zod.date()
-})
+  category: zod.string().nonempty("Selecione uma categoria."),
+  dueDate: zod.date().optional(),
+});
 
-type newDocumentFormData = zod.infer<typeof newDocumentFormValidationSchema>
+type newDocumentFormData = zod.infer<typeof newDocumentFormValidationSchema>;
 
 export function SubmitNewDocument() {
-
   const newDocumentForm = useForm<newDocumentFormData>({
     resolver: zodResolver(newDocumentFormValidationSchema),
-    defaultValues: {
-      name: '',
-      description: '',
-      file: undefined,
-      category: undefined,
-      dueDate: new Date()
+  });
+
+  const { data: categories, isLoading: isLoadingCategory } = useCategories();
+  const uploadMutation = useUploadDocument();
+
+  const { handleSubmit, reset } = newDocumentForm;
+
+  async function handleCreateNewDocument(data: newDocumentFormData) {
+    try {
+      await uploadMutation.mutateAsync({
+        title: data.title,
+        description: data.description,
+        file: data.file,
+        category_id: Number(data.category),
+      });
+
+      toast.success("Documento enviado com sucesso!");
+      reset();
+    } catch (error) {
+      console.error(error);
+      toast.error(`Erro ao enviar o documento. ${error}`);
     }
-  })
-
-  const { handleSubmit, reset } = newDocumentForm
-
-  function handleCreateNewDocument(data: newDocumentFormData) {
-    const documentId = String(new Date().getTime())
-
-    const newDocument: DocumentInterface = {
-      id: documentId,
-      name: data.name,
-      category: data.category,
-      file: data.file,
-      description: data.description,
-      dueDate: data.dueDate,
-      url: `http://localhost:3001/app/category/${data.category}/${documentId}`
-    }
-
-    console.log(newDocument)
-    reset()
   }
 
   return (
     <Form {...newDocumentForm}>
-      <form onSubmit={handleSubmit(handleCreateNewDocument)} action='' className='flex flex-col gap-4'>
-        <FormField
+      <form
+        onSubmit={handleSubmit(handleCreateNewDocument)}
+        action=""
+        className="flex flex-col gap-4"
+      >
+        <Controller
           control={newDocumentForm.control}
-          name='name'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nome do Documento</FormLabel>
-              <FormControl>
-                <Input autoComplete='off' placeholder='De um nome para o seu documento.' {...field} />
-              </FormControl>
-            </FormItem>
+          name="title"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Título do Documento*</FieldLabel>
+              <Input
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                autoComplete="off"
+                type="text"
+                placeholder="De um título para o seu documento."
+                {...field}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={newDocumentForm.control}
-          name='description'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Descrição</FormLabel>
-              <FormControl>
-                <Input autoComplete='off' placeholder='Dê uma descrição para o seu documento' {...field} />
-              </FormControl>
-            </FormItem>
+          name="description"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Descrição (Opcional)</FieldLabel>
+              <Input
+                {...field}
+                id={field.name}
+                type="text"
+                aria-invalid={fieldState.invalid}
+                autoComplete="off"
+                placeholder="Dê uma descrição para o seu documento"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={newDocumentForm.control}
-          name='category'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Categoria</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione a categoria do seu documento." />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {categoryTitles.map((title) => (
-                    <SelectItem key={title} value={title}>{title}</SelectItem>
+          name="category"
+          render={({ field, fieldState }) => (
+            <Field orientation="responsive" data-invalid={fieldState.invalid}>
+              <FieldContent>
+                <FieldLabel htmlFor="form-rhf-select-category">
+                  Categoria do documento
+                </FieldLabel>
+                <FieldDescription>
+                  Escolha a categoria que melhor representa o documento.
+                </FieldDescription>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </FieldContent>
+
+              <Select
+                name={field.name}
+                value={field.value}
+                onValueChange={field.onChange}
+              >
+                <SelectTrigger
+                  id="form-rhf-select-category"
+                  aria-invalid={fieldState.invalid}
+                  className="w-full"
+                >
+                  <SelectValue placeholder="Selecione a categoria do seu documento." />
+                </SelectTrigger>
+                <SelectContent position="item-aligned">
+                  {categories?.map((category) => (
+                    <SelectItem key={category.id} value={String(category.id)}>
+                      {category.name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-            </FormItem>
+            </Field>
           )}
         />
 
-        <FormField
+        <Controller
           control={newDocumentForm.control}
-          name='file'
-          render={({ field: { onChange, onBlur, name, ref } }) => (
-            <FormItem>
-              <FormLabel>Arquivo</FormLabel>
-              <FormControl>
-                <Input
-                  type='file'
-                  placeholder='Selecione o arquivo do seu documento'
-                  name={name}
-                  ref={ref}
-                  onBlur={onBlur}
-                  onChange={e => {
-                    const file = e.target.files && e.target.files[0];
-                    onChange(file);
-                  }}
-                />
-              </FormControl>
-            </FormItem>
+          name="file"
+          render={({ field: { onChange, onBlur, name, ref }, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={name}>Arquivo</FieldLabel>
+              <Input
+                id={name}
+                type="file"
+                placeholder="Selecione o arquivo do seu documento"
+                name={name}
+                ref={ref}
+                onBlur={onBlur}
+                onChange={(e) => {
+                  const file = e.target.files && e.target.files[0];
+                  onChange(file);
+                }}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-        <Button className='w-[33%]' type='submit'>Salvar Documento</Button>
+
+        <Button className="w-[33%]" type="submit" disabled={isLoadingCategory}>
+          Salvar Documento
+        </Button>
       </form>
     </Form>
-  )
+  );
 }

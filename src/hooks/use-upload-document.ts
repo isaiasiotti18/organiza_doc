@@ -3,7 +3,8 @@ import {
   uploadDocument,
   UploadDocumentInput,
   DocumentRecord,
-} from "@/utils/supabase/storage/uploadDocument";
+} from "@/lib/supabase/storage/uploadDocument";
+import { queryClient } from "@/lib/react-query";
 
 /**
  * Hook React Query para enviar documento ao storage e salvar no banco.
@@ -18,11 +19,11 @@ export function useUploadDocument(): UseMutationResult<
     mutationFn: async (input: UploadDocumentInput) => {
       return await uploadDocument(input);
     },
-    onSuccess: (data) => {
-      console.log("Documento enviado com sucesso:", data);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["documents"] });
     },
     onError: (error) => {
-      console.error("Erro ao enviar documento:", error.message);
+      return { message: "Erro ao enviar documento:", error: error?.message };
     },
   });
 }

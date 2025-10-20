@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
 import { useAuth } from "@/context/auth-provider";
-import { supabase } from "@/utils/supabase/supabase";
+import { supabase } from "@/lib/supabase/supabase";
 
 import { UserIcon, CaretCircleUpIcon } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";

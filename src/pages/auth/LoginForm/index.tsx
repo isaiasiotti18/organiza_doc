@@ -17,7 +17,7 @@ import {
   loginFormSchema,
   LoginFormSchemaType,
 } from "@/validations/login-form-schema";
-import { loginWithEmailAndPasswordSupabase } from "@/utils/supabase/loginWithEmailAndPassword";
+import { loginWithEmailAndPasswordSupabase } from "@/lib/supabase/loginWithEmailAndPassword";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 

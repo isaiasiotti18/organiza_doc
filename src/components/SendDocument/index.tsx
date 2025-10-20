@@ -19,8 +19,8 @@ import { Controller, useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
-import { useCategories } from "@/hooks/get-categories";
-import { useUploadDocument } from "@/hooks/upload-document";
+import { useGetCategories } from "@/hooks/use-get-categories";
+import { useUploadDocument } from "@/hooks/use-upload-document";
 import { toast } from "sonner";
 
 import {
@@ -58,7 +58,7 @@ export function SubmitNewDocument() {
     resolver: zodResolver(newDocumentFormValidationSchema),
   });
 
-  const { data: categories, isLoading: isLoadingCategory } = useCategories();
+  const { data: categories, isLoading: isLoadingCategory } = useGetCategories();
   const uploadMutation = useUploadDocument();
 
   const { handleSubmit, reset } = newDocumentForm;
@@ -73,7 +73,13 @@ export function SubmitNewDocument() {
       });
 
       toast.success("Documento enviado com sucesso!");
-      reset();
+      reset({
+        title: "",
+        category: "",
+        description: "",
+        dueDate: undefined,
+        file: undefined,
+      });
     } catch (error) {
       console.error(error);
       toast.error(`Erro ao enviar o documento. ${error}`);

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "@/utils/supabase/getCategories";
+import { getCategories } from "@/lib/supabase/getCategories";
 import { useAuth } from "@/context/auth-provider";
 
-export function useCategories() {
+export function useGetCategories() {
   const { user } = useAuth();
 
   return useQuery({

@@ -9,7 +9,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 
-import { newUserSupabase } from "@/utils/supabase/newUser";
+import { newUserSupabase } from "@/lib/supabase/newUser";
 import { useMutation } from "@tanstack/react-query";
 
 import { NavLink, useNavigate } from "react-router-dom";

@@ -10,10 +10,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { NavLink } from "react-router-dom";
 
-import { useCategories } from "@/hooks/get-categories";
+import { useGetCategories } from "@/hooks/use-get-categories";
 
 export function DocumentCategories() {
-  const { data: result, isLoading } = useCategories();
+  const { data: result, isLoading } = useGetCategories();
 
   return (
     <SidebarGroup>

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getDocuments } from "@/utils/supabase/getDocuments";
+import { getDocuments } from "@/lib/supabase/getDocuments";
 
-export function useDocuments() {
+export function useGetDocuments() {
   return useQuery({
     queryKey: ["documents"],
     queryFn: () => getDocuments(),

@@ -3,12 +3,15 @@ import { supabase } from "./supabase";
 export interface GetDocumentSupabase {
   id: string; // uuid
   user_id: string;
-  category_id: number;
   title: string;
   description?: string | null;
   file_url: string;
   expires_at?: string | null; // date em formato ISO string
   created_at: string; // timestamp em formato ISO string
+  category: {
+    id: number;
+    name: string;
+  };
 }
 
 export async function getDocuments(): Promise<GetDocumentSupabase[]> {
@@ -27,12 +30,12 @@ export async function getDocuments(): Promise<GetDocumentSupabase[]> {
       `
       id,
       user_id,
-      category_id,
       title,
       description,
       file_url,
       expires_at,
-      created_at
+      created_at,
+      category:categories (id, name)
     `,
     )
     .eq("user_id", user.id)
@@ -43,5 +46,5 @@ export async function getDocuments(): Promise<GetDocumentSupabase[]> {
     throw new Error(error.message);
   }
 
-  return data as GetDocumentSupabase[];
+  return data as unknown as GetDocumentSupabase[];
 }

@@ -2,6 +2,7 @@ import { DocumentCard } from "@/components/DocumentCard";
 import { useParams } from "react-router-dom";
 import { useGetDocuments } from "@/hooks/use-get-documents";
 import { useEffect } from "react";
+import { LoadingDocuments } from "@/components/LoadingDocuments";
 
 export function Documents() {
   const { category: categoryParam } = useParams<{ category: string }>();
@@ -11,7 +12,8 @@ export function Documents() {
     console.log(resultDocuments);
   }, [resultDocuments]);
 
-  if (isLoading) return <p>Carregando documentos...</p>;
+  if (isLoading) return <LoadingDocuments />;
+
   if (!resultDocuments) return <p>Erro ao carregar documentos.</p>;
 
   // --- Aplica filtro somente depois que há dados ---

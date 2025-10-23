@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { EyeIcon, FileArrowDownIcon } from "@phosphor-icons/react";
+import { formatDate } from "@/utils/formatDate";
 
 interface DocumentCardProps {
   id: string; // uuid
@@ -33,37 +34,38 @@ export function DocumentCard({
 }: DocumentCardProps) {
   return (
     <Card key={id} className="m-0 w-full p-2 pr-0 md:w-[48%] lg:w-[33%]">
-      <CardHeader className="m-0 flex flex-row justify-between p-0 pt-2 pr-2.5">
-        <div className="flex flex-col gap-1.5">
-          <CardTitle>
-            <span>{`${title} - ${category.name}`}</span>
+      <CardHeader className="m-0 flex flex-row justify-between gap-2 p-0 pt-2 pr-2.5">
+        <div className="flex min-w-0 flex-col gap-1.5">
+          <CardTitle className="truncate overflow-hidden text-ellipsis whitespace-nowrap">
+            {`${title} - ${category.name}`}
           </CardTitle>
-          <CardDescription className="justify-center align-middle">
+          <CardDescription className="line-clamp-2">
             {description}
           </CardDescription>
         </div>
-        <div className="align flex flex-col gap-1.5">
+        <div className="flex flex-shrink-0 flex-col text-right">
           <span className="text-muted-foreground text-[12px]">
-            Criado em: {created_at}
+            Criado em: {formatDate(created_at)}
           </span>
           <span className="text-muted-foreground text-[12px]">
-            Expira em: {expires_at}
+            Expira em: {formatDate(expires_at)}
           </span>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col items-center justify-between p-0">
-        <a href={file_url} className="flex flex-row gap-2">
-          <FileArrowDownIcon size={20} />
-          <span>Baixar Documento</span>
-        </a>
-        <a href={file_url} className="flex flex-row gap-2">
-          <EyeIcon size={20} />
-          <span>Visualizar Documento</span>
-        </a>
-      </CardContent>
-      <CardFooter className="flex flex-row justify-center gap-2 p-0">
-        <Button variant="destructive">Excluir Documento</Button>
-        <Button variant="outline">Alterar Documento</Button>
+
+      <CardFooter className="flex flex-row content-center justify-center gap-1.5 px-2">
+        <Button asChild className="flex-1" variant="default">
+          <a href={file_url} target="_blank">
+            <EyeIcon size={16} />
+            Visualizar
+          </a>
+        </Button>
+        <Button className="flex-1 cursor-pointer" variant="outline">
+          Alterar
+        </Button>
+        <Button className="flex-1 cursor-pointer" variant="destructive">
+          Excluir
+        </Button>
       </CardFooter>
     </Card>
   );

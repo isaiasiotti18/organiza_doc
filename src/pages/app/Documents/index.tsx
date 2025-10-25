@@ -2,7 +2,7 @@ import { DocumentCard } from "@/components/DocumentCard";
 import { useParams } from "react-router-dom";
 import { useGetDocuments } from "@/hooks/use-get-documents";
 import { useEffect } from "react";
-import { LoadingDocuments } from "@/components/LoadingDocuments";
+import { LoadingDocuments } from "@/components/DocumentCard/LoadingDocuments";
 
 export function Documents() {
   const { category: categoryParam } = useParams<{ category: string }>();

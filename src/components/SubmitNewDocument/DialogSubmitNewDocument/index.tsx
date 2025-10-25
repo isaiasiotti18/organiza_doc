@@ -1,4 +1,4 @@
-import { 
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -6,23 +6,24 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog'
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-import { PlusIcon } from '@phosphor-icons/react'
+import { PlusIcon } from "@phosphor-icons/react";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 
-interface FormDialogComponentProps {
-  children?: React.ReactNode
+interface DialogSubmitNewDocumentProps {
+  children?: React.ReactNode;
 }
 
-
-export function FormDialogComponent({ children }: FormDialogComponentProps) {
+export function DialogSubmitNewDocument({
+  children,
+}: DialogSubmitNewDocumentProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button type='button' variant="outline">
+        <Button type="button" variant="outline">
           <PlusIcon size={24} />
           Novo Documento
         </Button>
@@ -37,5 +38,5 @@ export function FormDialogComponent({ children }: FormDialogComponentProps) {
         {children}
       </DialogContent>
     </Dialog>
-  )
+  );
 }

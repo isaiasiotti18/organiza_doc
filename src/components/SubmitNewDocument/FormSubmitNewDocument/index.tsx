@@ -1,10 +1,4 @@
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -16,9 +10,8 @@ import {
 
 import { Controller, useForm } from "react-hook-form";
 
-import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { useGetCategories } from "@/hooks/use-get-categories";
 import { useUploadDocument } from "@/hooks/use-upload-document";
 import { toast } from "sonner";
@@ -30,40 +23,26 @@ import {
   FieldError,
   FieldLabel,
 } from "@/components/ui/field";
-import { useEffect } from "react";
+import {
+  NewDocumentFormData,
+  newDocumentFormValidationSchema,
+} from "@/validations/new-document-schema";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-
-const newDocumentFormValidationSchema = zod.object({
-  title: zod
-    .string()
-    .min(3, "Informe o nome do documento.")
-    .nonempty("Campo nome não pode estar vazio."),
-  description: zod
-    .string()
-    .min(5, "Informe o nome do documento.")
-    .max(20)
-    .optional(),
-  file: zod.z
-    .instanceof(File)
-    .refine((file) => file.size <= MAX_FILE_SIZE, `Max image size is 5MB.`),
-  category: zod.string().nonempty("Selecione uma categoria."),
-  dueDate: zod.date().optional(),
-});
-
-type newDocumentFormData = zod.infer<typeof newDocumentFormValidationSchema>;
-
-export function SubmitNewDocument() {
-  const newDocumentForm = useForm<newDocumentFormData>({
+export function FormSubmitNewDocument() {
+  const newDocumentForm = useForm<NewDocumentFormData>({
     resolver: zodResolver(newDocumentFormValidationSchema),
   });
 
-  const { data: categories, isLoading: isLoadingCategory } = useGetCategories();
+  const { data: categories } = useGetCategories();
   const uploadMutation = useUploadDocument();
 
-  const { handleSubmit, reset } = newDocumentForm;
+  const {
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = newDocumentForm;
 
-  async function handleCreateNewDocument(data: newDocumentFormData) {
+  async function handleCreateNewDocument(data: NewDocumentFormData) {
     try {
       await uploadMutation.mutateAsync({
         title: data.title,
@@ -77,7 +56,7 @@ export function SubmitNewDocument() {
         title: "",
         category: "",
         description: "",
-        dueDate: undefined,
+        expires_at: undefined,
         file: undefined,
       });
     } catch (error) {
@@ -195,7 +174,7 @@ export function SubmitNewDocument() {
           )}
         />
 
-        <Button className="w-[33%]" type="submit" disabled={isLoadingCategory}>
+        <Button className="w-[33%]" type="submit" disabled={isSubmitting}>
           Salvar Documento
         </Button>
       </form>

@@ -1,6 +1,6 @@
 import { HomeIcon } from "lucide-react";
-import { SubmitNewDocument } from "@/components/SendDocument";
-import { FormDialogComponent } from "@/components/FormDialogComponent";
+import { FormSubmitNewDocument } from "@/components/SubmitNewDocument/FormSubmitNewDocument";
+import { DialogSubmitNewDocument } from "@/components/SubmitNewDocument/DialogSubmitNewDocument";
 import { Link } from "react-router-dom";
 
 interface HeaderProps {
@@ -21,9 +21,9 @@ export function Header({
         <span className="text-xl font-bold">OrganizaDoc</span>
       </div>
       {displayFormInHeader && (
-        <FormDialogComponent>
-          <SubmitNewDocument />
-        </FormDialogComponent>
+        <DialogSubmitNewDocument>
+          <FormSubmitNewDocument />
+        </DialogSubmitNewDocument>
       )}
       {homeIcon && (
         <Link to="/app/home">

@@ -5,7 +5,7 @@ export interface UploadDocumentInput {
   category_id: number;
   title: string;
   description?: string | null;
-  expires_at?: string | null;
+  expires_at?: Date | null;
   file: File;
 }
 
@@ -16,7 +16,7 @@ export interface DocumentRecord {
   title: string;
   description?: string | null;
   file_url: string;
-  expires_at?: string | null;
+  expires_at?: Date | null;
   created_at: string;
 }
 

@@ -49,9 +49,11 @@ export function FormSubmitNewDocument() {
         description: data.description,
         file: data.file,
         category_id: Number(data.category),
+        expires_at: data?.expires_at ? new Date(data.expires_at) : null,
       });
 
       toast.success("Documento enviado com sucesso!");
+
       reset({
         title: "",
         category: "",
@@ -103,6 +105,27 @@ export function FormSubmitNewDocument() {
                 aria-invalid={fieldState.invalid}
                 autoComplete="off"
                 placeholder="Dê uma descrição para o seu documento"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <Controller
+          control={newDocumentForm.control}
+          name="expires_at"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>
+                Data de vencimento (Opcional)
+              </FieldLabel>
+              <Input
+                {...field}
+                id={field.name}
+                type="date"
+                aria-invalid={fieldState.invalid}
+                autoComplete="off"
+                placeholder="Data de vencimento"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>

@@ -7,23 +7,30 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { PlusIcon } from "@phosphor-icons/react";
-
 import { Button } from "@/components/ui/button";
+import { SquarePen } from "lucide-react";
+import { FormAlterInfoDocument } from "../FormAlterInfoDocument";
+import { useState } from "react";
 
 interface DialogAlterInfoDocumentProps {
-  children?: React.ReactNode;
+  documentId: string;
 }
 
 export function DialogAlterInfoDocument({
-  children,
+  documentId,
 }: DialogAlterInfoDocumentProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button type="button" variant="outline">
-          <PlusIcon size={24} />
-          Alterar Informações
+        <Button
+          className="flex-1 cursor-pointer"
+          type="button"
+          variant="outline"
+        >
+          <SquarePen size={16} />
+          Alterar
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -31,7 +38,11 @@ export function DialogAlterInfoDocument({
           <DialogTitle>Altere as informações do documento.</DialogTitle>
           <DialogDescription>Preencha as informações abaixo.</DialogDescription>
         </DialogHeader>
-        {children}
+        <FormAlterInfoDocument
+          documentId={documentId}
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   );

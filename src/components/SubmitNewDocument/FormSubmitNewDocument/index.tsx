@@ -60,7 +60,6 @@ export function FormSubmitNewDocument() {
         file: undefined,
       });
     } catch (error) {
-      console.error(error);
       toast.error(`Erro ao enviar o documento. ${error}`);
     }
   }

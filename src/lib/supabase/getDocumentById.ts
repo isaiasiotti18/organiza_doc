@@ -1,7 +1,13 @@
 import { GetDocumentSupabase } from "@/interfaces/supabase/GetDocumentSupabase";
 import { supabase } from "./supabase";
 
-export async function getDocuments(): Promise<GetDocumentSupabase[]> {
+interface GetDocumentByIdParam {
+  documentId: string;
+}
+
+export async function getDocumentById({
+  documentId,
+}: GetDocumentByIdParam): Promise<GetDocumentSupabase> {
   const {
     data: { user },
     error: userError,
@@ -26,12 +32,12 @@ export async function getDocuments(): Promise<GetDocumentSupabase[]> {
     `,
     )
     .eq("user_id", user.id)
-    .order("created_at", { ascending: false });
+    .eq("id", documentId);
 
   if (error) {
     console.error("Erro ao buscar documentos:", error);
     throw new Error(error.message);
   }
 
-  return data as unknown as GetDocumentSupabase[];
+  return data as unknown as GetDocumentSupabase;
 }

@@ -7,8 +7,10 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { EyeIcon, FileArrowDownIcon } from "@phosphor-icons/react";
+import { EyeIcon } from "@phosphor-icons/react";
 import { formatDate } from "@/utils/formatDate";
+import { Trash2 } from "lucide-react";
+import { DialogAlterInfoDocument } from "../AlterInfoDocument/DialogAlterInfoDocument";
 
 interface DocumentCardProps {
   id: string; // uuid
@@ -60,10 +62,11 @@ export function DocumentCard({
             Visualizar
           </a>
         </Button>
-        <Button className="flex-1 cursor-pointer" variant="outline">
-          Alterar
-        </Button>
+
+        <DialogAlterInfoDocument documentId={id} />
+
         <Button className="flex-1 cursor-pointer" variant="destructive">
+          <Trash2 size={16} />
           Excluir
         </Button>
       </CardFooter>

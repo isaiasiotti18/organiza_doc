@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-constant-binary-expression */
 import { Form } from "@/components/ui/form";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SkeletonFormDocument } from "@/components/AlterInfoDocument/FormAlterInfoDocument/SkeletonForm";
 
 import {
   AlterInfoDocFormValidationSchema,
@@ -26,23 +29,89 @@ import {
 import { Input } from "@/components/ui/input";
 import { useGetCategories } from "@/hooks/use-get-categories";
 import { Button } from "@/components/ui/button";
+import { useGetDocumentById } from "@/hooks/use-get-document-by-id";
+import { useEffect } from "react";
+import { GetDocumentSupabase } from "@/interfaces/supabase/GetDocumentSupabase";
+import { useUpdateDocumentById } from "@/hooks/use-update-document-by-id";
+import { toast } from "sonner";
 
-export function FormAlterInfoDocument() {
+export interface FormAlterInfoDocumentProps {
+  documentId: string;
+  open: boolean;
+  onClose: () => void;
+}
+
+export function FormAlterInfoDocument({
+  documentId,
+  open,
+  onClose,
+}: FormAlterInfoDocumentProps) {
+  const { data: categories } = useGetCategories();
+
+  const { data: document, isLoading: isDocLoading } = useGetDocumentById({
+    documentId,
+    open,
+  });
+
   const formAlterInfoDocument = useForm<AlterInfoDocFormValidationSchema>({
     resolver: zodResolver(alterInfoDocFormValidationSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      category: "",
+      expires_at: undefined,
+    },
   });
 
   const {
     handleSubmit,
     control,
     formState: { isSubmitting },
+    reset,
   } = formAlterInfoDocument;
 
-  async function handleAlterInfoDoc() {
-    console.log("Form");
+  const updateDocumentById = useUpdateDocumentById();
+
+  async function handleAlterInfoDoc(data: AlterInfoDocFormValidationSchema) {
+    try {
+      await updateDocumentById.mutateAsync({
+        documentId: documentId,
+        document: {
+          title: data.title,
+          description: data?.description,
+          category_id: Number(data.category),
+          expires_at: data?.expires_at ? new Date(data.expires_at) : null,
+        },
+      });
+
+      toast.success("Documento atualizado com sucesso!");
+
+      onClose();
+    } catch (error) {
+      console.log(error);
+      toast.error(`Erro ao enviar o documento. ${error}`);
+    }
   }
 
-  const { data: categories } = useGetCategories();
+  useEffect(() => {
+    // normaliza o document: se vier como array, pega o primeiro elemento
+    const doc: GetDocumentSupabase = Array.isArray(document)
+      ? document[0]
+      : document;
+
+    if (open && doc) {
+      reset({
+        title: doc.title ?? "",
+        description: doc.description ?? "",
+        expires_at: doc.expires_at ?? "",
+        category: String(doc.category?.id ?? ""),
+      });
+    }
+  }, [open, document, reset]);
+
+  if (isDocLoading || !document) {
+    return <SkeletonFormDocument />;
+  }
 
   return (
     <Form {...formAlterInfoDocument}>
@@ -82,6 +151,27 @@ export function FormAlterInfoDocument() {
                 aria-invalid={fieldState.invalid}
                 autoComplete="off"
                 placeholder="Dê uma descrição para o seu documento"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="expires_at"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>
+                Data de vencimento (Opcional)
+              </FieldLabel>
+              <Input
+                {...field}
+                id={field.name}
+                type="date"
+                aria-invalid={fieldState.invalid}
+                autoComplete="off"
+                placeholder="Data de vencimento"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>

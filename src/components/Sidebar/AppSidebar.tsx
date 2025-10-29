@@ -16,15 +16,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="m-0 h-15 p-0">
-        <NewCategory>
-          <Button
-            variant="outline"
-            className="flex h-full w-full cursor-pointer justify-center gap-2.5 rounded-none border-0 p-4 text-center"
-          >
-            <PlusIcon size={24} />
-            <span className="font-bold">Nova categoria</span>
-          </Button>
-        </NewCategory>
+        <NewCategory />
       </SidebarHeader>
       <SidebarContent>
         <DocumentCategories />

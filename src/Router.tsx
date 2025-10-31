@@ -27,6 +27,10 @@ export function Router() {
           </ProtectedRoute>
         }
       >
+        <Route
+          path="/app"
+          element={<Navigate to="/app/documents/all" replace={true} />}
+        />
         <Route path="documents/:category" element={<Documents />} />
       </Route>
 

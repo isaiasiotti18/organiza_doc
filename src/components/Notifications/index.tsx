@@ -11,8 +11,8 @@ import {
 } from "../ui/dropdown-menu";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { useEffect, useState } from "react";
-import { useUpdateNotificationDays } from "@/hooks/use-update-notification-days";
-import { useNotificationSettings } from "@/hooks/use-notification-settings";
+import { useUpdateNotificationDays } from "@/hooks/notifications/use-update-notification-days";
+import { useNotificationSettings } from "@/hooks/notifications/use-notification-settings";
 
 export function Notifications() {
   const [daysBeforeExpiry, setDaysBeforeExpiry] = useState(20);

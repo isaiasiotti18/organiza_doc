@@ -1,6 +1,6 @@
 import { DocumentCard } from "@/components/DocumentCard";
 import { useParams } from "react-router-dom";
-import { useGetDocuments } from "@/hooks/use-get-documents";
+import { useGetDocuments } from "@/hooks/documents/use-get-documents";
 import { LoadingDocuments } from "@/components/DocumentCard/LoadingDocuments";
 import { AlertNoDocument } from "@/components/AlertNoDocument";
 

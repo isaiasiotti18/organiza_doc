@@ -2,7 +2,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { toast } from "sonner";
-import { useCreateCategory } from "@/hooks/use-create-category";
+import { useCreateCategory } from "@/hooks/categories/use-create-category";
 import {
   CreateCategorySchema,
   createCategorySchema,

@@ -27,12 +27,12 @@ import {
 } from "@/components/ui/field";
 
 import { Input } from "@/components/ui/input";
-import { useGetCategories } from "@/hooks/use-get-categories";
+import { useGetCategories } from "@/hooks/categories/use-get-categories";
 import { Button } from "@/components/ui/button";
-import { useGetDocumentById } from "@/hooks/use-get-document-by-id";
+import { useGetDocumentById } from "@/hooks/documents/use-get-document-by-id";
 import { useEffect } from "react";
 import { GetDocumentSupabase } from "@/interfaces/supabase/GetDocumentSupabase";
-import { useUpdateDocumentById } from "@/hooks/use-update-document-by-id";
+import { useUpdateDocumentById } from "@/hooks/documents/use-update-document-by-id";
 import { toast } from "sonner";
 
 export interface FormAlterInfoDocumentProps {

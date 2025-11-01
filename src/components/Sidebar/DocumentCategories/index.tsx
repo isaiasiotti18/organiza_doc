@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { NavLink } from "react-router-dom";
 
-import { useGetCategories } from "@/hooks/use-get-categories";
+import { useGetCategories } from "@/hooks/categories/use-get-categories";
 
 export function DocumentCategories() {
   const { data: result, isLoading } = useGetCategories();

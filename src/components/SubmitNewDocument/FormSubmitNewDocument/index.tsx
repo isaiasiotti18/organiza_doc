@@ -12,8 +12,8 @@ import { Controller, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../../ui/button";
-import { useGetCategories } from "@/hooks/use-get-categories";
-import { useUploadDocument } from "@/hooks/use-upload-document";
+import { useGetCategories } from "@/hooks/categories/use-get-categories";
+import { useUploadDocument } from "@/hooks/documents/use-upload-document";
 import { toast } from "sonner";
 
 import {

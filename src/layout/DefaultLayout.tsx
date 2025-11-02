@@ -6,8 +6,12 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/Sidebar/AppSidebar";
+import { useAuth } from "@/context/auth-provider";
+import { useNotificationsRealtime } from "@/hooks/notifications/use-notifications-realtime";
 
 export function DefaultLayout() {
+  const { user } = useAuth();
+  useNotificationsRealtime(user?.id);
   return (
     <SidebarProvider>
       <AppSidebar />

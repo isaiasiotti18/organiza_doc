@@ -8,6 +8,7 @@ import { UserLayout } from "./layout/UserLayout";
 import { Account } from "./pages/user/Account";
 import { Billing } from "./pages/user/Billing";
 import ProtectedRoute from "./protected-route";
+import Dashboard from "./pages/dashboard";
 
 export function Router() {
   return (
@@ -33,6 +34,15 @@ export function Router() {
         />
         <Route path="documents/:category" element={<Documents />} />
       </Route>
+
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      ></Route>
 
       <Route
         path="/user"

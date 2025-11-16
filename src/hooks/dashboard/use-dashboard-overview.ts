@@ -1,0 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
+import { getDashboardOverview } from "@/lib/supabase/dashboard/getDashboardOverview";
+
+export function useDashboardOverview() {
+  return useQuery({
+    queryKey: ["dashboard-overview"],
+    queryFn: getDashboardOverview,
+    staleTime: 1000 * 60 * 5, // 5 minutos, assume que é estático o suficiente
+  });
+}

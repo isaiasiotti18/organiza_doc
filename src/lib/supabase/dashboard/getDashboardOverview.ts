@@ -46,7 +46,8 @@ export async function getDashboardOverview() {
     }
 
     
-    return {      total_documents,
+    return {      
+      total_documents,
       expired_documents
     }
 

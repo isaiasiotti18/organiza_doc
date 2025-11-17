@@ -24,7 +24,7 @@ export default function Dashboard() {
         <StatisticsCards />
 
         {/* Alerts Section */}
-        <Alerts />
+        {/* <Alerts /> */}
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

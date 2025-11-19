@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, AlertTriangle } from "lucide-react";
+import { Calendar, AlertTriangle, OctagonAlert, XCircle } from "lucide-react";
 import { useGetUpcomingDueDate } from "@/hooks/dashboard/use-get-upcoming-due-dates";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -26,8 +26,8 @@ export function ExpiringDocuments() {
 
       <CardContent className="space-y-3">
         {notifications.map((item) => {
-          const critical = item.days_left <= 2;
-          const expired = item.days_left < 0;
+          const expired = item.days_left <= 0;
+          const critical = item.days_left > 0 && item.days_left <= 5;
 
           return (
             <div
@@ -35,8 +35,10 @@ export function ExpiringDocuments() {
               className="hover:bg-muted/50 flex items-start gap-3 rounded-lg p-2 transition-colors"
             >
               <div className="mt-1">
-                {(critical || expired) && (
-                  <AlertTriangle className="text-destructive h-4 w-4" />
+                {expired && <XCircle className="text-destructive h-4 w-4" />}
+
+                {critical && (
+                  <OctagonAlert className="h-4 w-4 text-yellow-500" />
                 )}
               </div>
 
@@ -60,7 +62,7 @@ export function ExpiringDocuments() {
                       ? "destructive"
                       : "secondary"
                 }
-                className="flex-shrink-0 text-xs"
+                className={`flex-shrink-0 text-xs ${critical ? "bg-yellow-500" : ""}`}
               >
                 {expired ? "Vencido" : `${item.days_left} dias`}
               </Badge>

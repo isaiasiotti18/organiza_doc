@@ -76,6 +76,12 @@ export async function getDashboardOverview() {
       );
     }
 
+    console.log("Get Dashboard Overview: ", {
+      total_documents,
+      expired_documents,
+      due_soon_documents,
+    });
+
     return {
       total_documents,
       expired_documents,

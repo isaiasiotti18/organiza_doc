@@ -45,11 +45,13 @@ export async function getUpcomingDueDates() {
       )
       .eq("user_id", user.id)
       .eq("deleted", false)
-      .gt("expires_at", new Date().toISOString())
       .order("expires_at", { ascending: true })
+      .limit(5)
       .returns<Notification[]>();
 
     if (error) throw error;
+
+    console.log("Get Upcoming Due Date: ", data);
 
     return data;
   } catch (error: any) {

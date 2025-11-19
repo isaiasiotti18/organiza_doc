@@ -1,63 +1,73 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Calendar, AlertTriangle } from 'lucide-react'
-
-const expiringDocs = [
-  {
-    name: 'Certidão de Nascimento',
-    expiresIn: '2 dias',
-    date: '17/11/2025',
-    priority: 'crítico'
-  },
-  {
-    name: 'Contrato de Fornecedor XYZ',
-    expiresIn: '7 dias',
-    date: '22/11/2025',
-    priority: 'alto'
-  },
-  {
-    name: 'Licença Ambiental',
-    expiresIn: '15 dias',
-    date: '30/11/2025',
-    priority: 'médio'
-  },
-  {
-    name: 'Fatura #FT-2024-045',
-    expiresIn: 'Vencido',
-    date: '05/11/2025',
-    priority: 'crítico'
-  }
-]
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, AlertTriangle } from "lucide-react";
+import { useGetUpcomingDueDate } from "@/hooks/dashboard/use-get-upcoming-due-dates";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 export function ExpiringDocuments() {
+  const { data: notifications = [] } = useGetUpcomingDueDate();
+
   return (
     <Card className="border-0 shadow-sm">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-primary" />
+          <Calendar className="text-primary h-5 w-5" />
           Próximos Vencimentos
         </CardTitle>
         <CardDescription>Documentos por vencer</CardDescription>
       </CardHeader>
+
       <CardContent className="space-y-3">
-        {expiringDocs.map((doc, index) => (
-          <div key={index} className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors">
-            <div className="mt-1">
-              {doc.priority === 'crítico' && <AlertTriangle className="w-4 h-4 text-destructive" />}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-foreground truncate">{doc.name}</p>
-              <p className="text-xs text-muted-foreground">{doc.date}</p>
-            </div>
-            <Badge
-              variant={doc.priority === 'crítico' ? 'destructive' : 'secondary'}
-              className="flex-shrink-0 text-xs"
+        {notifications.map((item) => {
+          const critical = item.days_left <= 2;
+          const expired = item.days_left < 0;
+
+          return (
+            <div
+              key={item.id}
+              className="hover:bg-muted/50 flex items-start gap-3 rounded-lg p-2 transition-colors"
             >
-              {doc.expiresIn}
-            </Badge>
-          </div>
-        ))}
+              <div className="mt-1">
+                {(critical || expired) && (
+                  <AlertTriangle className="text-destructive h-4 w-4" />
+                )}
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <p className="text-foreground truncate text-sm font-medium">
+                  {item.message ?? "Documento"}
+                </p>
+
+                <p className="text-muted-foreground text-xs">
+                  {format(new Date(item.expires_at), "dd/MM/yyyy", {
+                    locale: ptBR,
+                  })}
+                </p>
+              </div>
+
+              <Badge
+                variant={
+                  expired
+                    ? "destructive"
+                    : critical
+                      ? "destructive"
+                      : "secondary"
+                }
+                className="flex-shrink-0 text-xs"
+              >
+                {expired ? "Vencido" : `${item.days_left} dias`}
+              </Badge>
+            </div>
+          );
+        })}
       </CardContent>
     </Card>
-  )
+  );
 }

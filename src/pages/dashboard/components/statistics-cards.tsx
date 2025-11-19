@@ -1,9 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { useDashboardOverview } from "@/hooks/dashboard/use-dashboard-overview";
 import { TrendingUp, AlertCircle, TriangleAlert } from "lucide-react";
 
 export function StatisticsCards() {
   const { data, isLoading, error } = useDashboardOverview();
+
+  const dueSoonDocument = data?.due_soon_documents
+    ? data?.due_soon_documents.length
+    : 0;
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -21,9 +26,8 @@ export function StatisticsCards() {
             Total de Documentos
           </h3>
           <p className="text-foreground mb-2 text-2xl font-bold">
-            {data?.total_documents ? data?.total_documents : 0}
+            {isLoading ? <Spinner /> : data?.total_documents.length}
           </p>
-          <p className="text-muted-foreground text-xs">12% ao mês anterior</p>
         </CardContent>
       </Card>
 
@@ -41,9 +45,8 @@ export function StatisticsCards() {
             Documentos Vencidos
           </h3>
           <p className="text-foreground mb-2 text-2xl font-bold">
-            {data?.expired_documents ? data?.expired_documents : 0}
+            {isLoading ? <Spinner /> : data?.expired_documents.length}
           </p>
-          <p className="text-muted-foreground text-xs">12% ao mês anterior</p>
         </CardContent>
       </Card>
 
@@ -61,9 +64,8 @@ export function StatisticsCards() {
             Documentos a Vencer
           </h3>
           <p className="text-foreground mb-2 text-2xl font-bold">
-            {data?.due_soon_documents ? data?.days_before_expiry : 0}
+            {isLoading ? <Spinner /> : dueSoonDocument}
           </p>
-          <p className="text-muted-foreground text-xs">12% ao mês anterior</p>
         </CardContent>
       </Card>
     </div>

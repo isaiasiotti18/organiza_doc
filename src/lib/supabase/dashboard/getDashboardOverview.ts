@@ -8,10 +8,6 @@ export interface DashboardOverview {
   days_before_expiry: number;
 }
 
-/**
- * Invoca a Edge Function "dashboard-overview"
- * O Supabase automaticamente envia o JWT do usuário.
- */
 export async function getDashboardOverview() {
   try {
     const {
@@ -24,33 +20,67 @@ export async function getDashboardOverview() {
     }
 
     // Total Documents
-    const { data: total_documents, error: totalDocumentsError } =
-      await supabase
-        .from("documents")
-        .select("*", { count: "exact" })
+    const { data: total_documents, error: totalDocumentsError } = await supabase
+      .from("documents")
+      .select("*", { count: "exact" })
+      .eq("user_id", user.id);
 
-    if(totalDocumentsError) {
-      throw new Error(`Error Total Documentos: ${totalDocumentsError}`)
+    if (totalDocumentsError) {
+      throw new Error(`Error Total Documentos: ${totalDocumentsError.message}`);
     }
 
     // Expired Documents
-    const { data: expired_documents, error: expiredDocumentsError } = 
+    const { data: expired_documents, error: expiredDocumentsError } =
       await supabase
         .from("documents")
-        .select("*", { count: "exact"})
-        .gt("expire_at", new Date().toISOString())
+        .select("*", { count: "exact" })
+        .gt("expires_at", new Date().toISOString())
+        .eq("user_id", user.id);
 
-    
-    if(expiredDocumentsError) {
-      throw new Error(`Erro Total de Documentos Expirados: ${expiredDocumentsError}`)
+    if (expiredDocumentsError) {
+      throw new Error(
+        `Erro Total de Documentos Expirados: ${expiredDocumentsError.message}`,
+      );
     }
 
-    
-    return {      
+    const { data: settings, error: settingsError } = await supabase
+      .from("notification_settings")
+      .select("days_before_expiry")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (settingsError) {
+      throw new Error(
+        `Erro Total de Documentos a Vencer: ${settingsError.message}`,
+      );
+    }
+
+    const daysBefore = settings?.days_before_expiry ?? 10;
+
+    const today = new Date().toISOString().split("T")[0];
+    const endDate = new Date(Date.now() + daysBefore * 86400000)
+      .toISOString()
+      .split("T")[0];
+
+    const { data: due_soon_documents, error: dueSoonDocumentsError } =
+      await supabase
+        .from("documents")
+        .select("*", { count: "exact", head: true })
+        .eq("hidden", false)
+        .gte("expires_at", today)
+        .lte("expires_at", endDate);
+
+    if (dueSoonDocumentsError) {
+      throw new Error(
+        `Erro Total de Documentos Expirados: ${dueSoonDocumentsError.message}`,
+      );
+    }
+
+    return {
       total_documents,
-      expired_documents
-    }
-
+      expired_documents,
+      due_soon_documents,
+    };
   } catch (error: any) {
     console.error("Erro ao criar nova categoria:", error);
     throw new Error(error.message);

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabase } from "./supabase";
 
 export interface CreateCategorySupabase {
@@ -27,15 +26,15 @@ export async function createCategory({
       .select()
       .single();
 
-    console.log(data);
-
     if (insertError) {
-      throw new Error(`Erro ao salvar categoria: ${insertError.message}`);
+      throw new Error("Erro ao salvar categoria. Tente novamente.");
     }
 
     return data as CreateCategorySupabase;
-  } catch (error: any) {
-    console.error("Erro ao criar nova categoria:", error);
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao criar categoria.");
   }
 }

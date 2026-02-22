@@ -29,8 +29,7 @@ export async function getDocuments(): Promise<GetDocumentSupabase[]> {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Erro ao buscar documentos:", error);
-    throw new Error(error.message);
+    throw new Error("Erro ao buscar documentos.");
   }
 
   return data as unknown as GetDocumentSupabase[];

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd C:\\\\Users\\\\isaia\\\\OneDrive\\\\Área de Trabalho\\\\Projetos\\\\organiza_doc:*)",
+      "Bash(head:*)"
+    ]
+  }
+}

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabase } from "@/lib/supabase/supabase";
 import { useQuery } from "@tanstack/react-query";
 
@@ -21,9 +20,11 @@ async function fetchNotificationDays() {
     if (error && error.code !== "PGRST116") throw error;
 
     return data?.days_before_expiry ?? 20; // fallback
-  } catch (error: any) {
-    console.error("Error: ", error);
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao buscar configurações de notificação.");
   }
 }
 

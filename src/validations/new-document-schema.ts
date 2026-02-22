@@ -12,9 +12,21 @@ export const newDocumentFormValidationSchema = z.object({
     .min(5, "Informe o nome do documento.")
     .max(20)
     .optional(),
-  file: z.z
+  file: z
     .instanceof(File)
-    .refine((file) => file.size <= MAX_FILE_SIZE, `Max image size is 5MB.`),
+    .refine((file) => file.size <= MAX_FILE_SIZE, "Tamanho máximo do arquivo é 5MB.")
+    .refine(
+      (file) =>
+        [
+          "application/pdf",
+          "image/jpeg",
+          "image/png",
+          "image/webp",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ].includes(file.type),
+      "Tipo de arquivo não permitido. Use PDF, JPEG, PNG, WEBP ou DOC/DOCX.",
+    ),
   category: z.string().nonempty("Selecione uma categoria."),
   expires_at: z.string().optional(),
 });

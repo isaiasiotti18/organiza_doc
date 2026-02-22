@@ -35,8 +35,7 @@ export async function getDocumentById({
     .eq("id", documentId);
 
   if (error) {
-    console.error("Erro ao buscar documentos:", error);
-    throw new Error(error.message);
+    throw new Error("Erro ao buscar documento.");
   }
 
   return data as unknown as GetDocumentSupabase;

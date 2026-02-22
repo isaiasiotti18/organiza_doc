@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabase } from "../supabase";
 
 export interface UploadDocumentInput {
@@ -34,28 +33,44 @@ export async function uploadDocument(
       throw new Error("Usuário não autenticado.");
     }
 
-    // 1️⃣ Nome único para o arquivo
+    // 1️⃣ Validar tipo do arquivo
+    const ALLOWED_MIME_TYPES = [
+      "application/pdf",
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+
+    if (!ALLOWED_MIME_TYPES.includes(input.file.type)) {
+      throw new Error(
+        "Tipo de arquivo não permitido. Use PDF, JPEG, PNG, WEBP ou DOC/DOCX.",
+      );
+    }
+
+    // 2️⃣ Nome único para o arquivo
     const fileExt = input.file.name.split(".").pop();
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
     const filePath = `${user.id}/${fileName}`;
 
-    // 2️⃣ Upload para o Storage (bucket "organizadoc-bkt-documents")
+    // 3️⃣ Upload para o Storage (bucket "organizadoc-bkt-documents")
     const { error: uploadError } = await supabase.storage
       .from("organizadoc-bkt-documents")
       .upload(filePath, input.file);
 
     if (uploadError) {
-      throw new Error(`Erro ao enviar arquivo: ${uploadError.message}`);
+      throw new Error("Erro ao enviar arquivo. Tente novamente.");
     }
 
-    // 3️⃣ Obter URL pública (ou substitua por createSignedUrl se for bucket privado)
+    // 4️⃣ Obter URL pública (ou substitua por createSignedUrl se for bucket privado)
     const { data: publicUrlData } = supabase.storage
       .from("organizadoc-bkt-documents")
       .getPublicUrl(filePath);
 
     const fileUrl = publicUrlData.publicUrl;
 
-    // 4️⃣ Inserir dados na tabela "documents"
+    // 5️⃣ Inserir dados na tabela "documents"
     const { data, error: insertError } = await supabase
       .from("documents")
       .insert({
@@ -70,12 +85,14 @@ export async function uploadDocument(
       .single();
 
     if (insertError) {
-      throw new Error(`Erro ao salvar metadados: ${insertError.message}`);
+      throw new Error("Erro ao salvar documento. Tente novamente.");
     }
 
     return data as DocumentRecord;
-  } catch (error: any) {
-    console.error("Erro em uploadDocument:", error);
-    throw new Error(error.message || "Falha ao enviar documento.");
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Falha ao enviar documento.");
   }
 }

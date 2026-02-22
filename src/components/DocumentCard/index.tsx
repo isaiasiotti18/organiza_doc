@@ -57,7 +57,7 @@ export function DocumentCard({
 
       <CardFooter className="flex flex-row content-center justify-center gap-1.5 px-2">
         <Button asChild className="flex-1" variant="default">
-          <a href={file_url} target="_blank">
+          <a href={file_url} target="_blank" rel="noopener noreferrer">
             <EyeIcon size={16} />
             Visualizar
           </a>

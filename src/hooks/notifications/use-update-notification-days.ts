@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase/supabase"; // ajuste conforme seu projeto
+import { supabase } from "@/lib/supabase/supabase";
 
 async function updateNotificationDays(days: number) {
   try {
@@ -20,9 +19,11 @@ async function updateNotificationDays(days: number) {
     if (error) throw error;
 
     return true;
-  } catch (error: any) {
-    console.error("Error: ", error);
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao atualizar configuração de notificação.");
   }
 }
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabase } from "../supabase";
 
 type Notification = {
@@ -49,13 +48,15 @@ export async function getUpcomingDueDates() {
       .limit(5)
       .returns<Notification[]>();
 
-    if (error) throw error;
-
-    console.log("Get Upcoming Due Date: ", data);
+    if (error) {
+      throw new Error("Erro ao buscar próximos vencimentos.");
+    }
 
     return data;
-  } catch (error: any) {
-    console.error("erro ao puxar vencimentos:", error);
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao buscar próximos vencimentos.");
   }
 }

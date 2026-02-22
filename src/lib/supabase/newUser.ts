@@ -35,8 +35,6 @@ export async function newUserSupabase({
   });
 
   if (error) {
-    console.log(error);
-    console.error("Error signing up: ", error);
     return { success: false, error };
   }
 

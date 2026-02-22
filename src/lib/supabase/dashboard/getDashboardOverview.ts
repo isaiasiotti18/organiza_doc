@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabase } from "../supabase";
 
 export interface DashboardOverview {
@@ -26,7 +25,7 @@ export async function getDashboardOverview() {
       .eq("user_id", user.id);
 
     if (totalDocumentsError) {
-      throw new Error(`Error Total Documentos: ${totalDocumentsError.message}`);
+      throw new Error("Erro ao buscar total de documentos.");
     }
 
     // Expired Documents
@@ -38,9 +37,7 @@ export async function getDashboardOverview() {
         .eq("user_id", user.id);
 
     if (expiredDocumentsError) {
-      throw new Error(
-        `Erro Total de Documentos Expirados: ${expiredDocumentsError.message}`,
-      );
+      throw new Error("Erro ao buscar documentos expirados.");
     }
 
     const { data: settings, error: settingsError } = await supabase
@@ -50,9 +47,7 @@ export async function getDashboardOverview() {
       .maybeSingle();
 
     if (settingsError) {
-      throw new Error(
-        `Erro Total de Documentos a Vencer: ${settingsError.message}`,
-      );
+      throw new Error("Erro ao buscar configurações de notificação.");
     }
 
     const daysBefore = settings?.days_before_expiry ?? 10;
@@ -71,24 +66,18 @@ export async function getDashboardOverview() {
         .lte("expires_at", endDate);
 
     if (dueSoonDocumentsError) {
-      throw new Error(
-        `Erro Total de Documentos Expirados: ${dueSoonDocumentsError.message}`,
-      );
+      throw new Error("Erro ao buscar documentos próximos do vencimento.");
     }
-
-    console.log("Get Dashboard Overview: ", {
-      total_documents,
-      expired_documents,
-      due_soon_documents,
-    });
 
     return {
       total_documents,
       expired_documents,
       due_soon_documents,
     };
-  } catch (error: any) {
-    console.error("Erro ao criar nova categoria:", error);
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao buscar dados do dashboard.");
   }
 }

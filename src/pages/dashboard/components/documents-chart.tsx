@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Card,
   CardContent,
@@ -38,7 +37,7 @@ export function DocumentsChart() {
 
   const total = categoryData.reduce((acc, cur) => acc + cur.value, 0);
 
-  const handleDrilldown = (entry: any) => {
+  const handleDrilldown = (entry: { name?: string }) => {
     if (!entry || !entry.name) return;
     setSelectedCategory(entry.name);
   };

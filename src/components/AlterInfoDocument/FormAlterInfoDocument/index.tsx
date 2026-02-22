@@ -88,8 +88,9 @@ export function FormAlterInfoDocument({
 
       onClose();
     } catch (error) {
-      console.log(error);
-      toast.error(`Erro ao enviar o documento. ${error}`);
+      const message =
+        error instanceof Error ? error.message : "Erro desconhecido.";
+      toast.error(`Erro ao atualizar documento. ${message}`);
     }
   }
 

@@ -27,8 +27,7 @@ export async function getCategories(): Promise<GetCategorySupabase[]> {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Erro ao buscar categorias:", error);
-    throw new Error(error.message);
+    throw new Error("Erro ao buscar categorias.");
   }
 
   return data as GetCategorySupabase[];

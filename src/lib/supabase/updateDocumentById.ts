@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { supabase } from "./supabase";
 
 export interface GetDocumentByIdParam {
@@ -36,15 +34,18 @@ export async function updateDocumentById({
         category_id: document.category_id,
         expires_at: document.expires_at,
       })
-      .eq("id", documentId);
+      .eq("id", documentId)
+      .eq("user_id", user.id);
 
     if (updateError) {
-      throw new Error(`Erro ao salvar metadados: ${updateError.message}`);
+      throw new Error("Erro ao atualizar documento. Tente novamente.");
     }
 
     return data;
-  } catch (error: any) {
-    console.error("Erro em uploadDocument:", error);
-    throw new Error(error?.message || "Falha ao enviar documento.");
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Falha ao atualizar documento.");
   }
 }

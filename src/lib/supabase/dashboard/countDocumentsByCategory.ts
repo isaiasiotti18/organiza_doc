@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { supabase } from "../supabase";
 
 export type DocumentsByCategory = {
@@ -24,8 +23,10 @@ export async function countDocumentsByCategory(): Promise<
     if (error) throw error;
 
     return data as DocumentsByCategory[];
-  } catch (error: any) {
-    console.error("Count Document By Category Error: ", error);
-    throw new Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Erro ao contar documentos por categoria.");
   }
 }
